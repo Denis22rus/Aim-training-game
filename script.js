@@ -3,8 +3,10 @@ const screens = document.querySelectorAll('.screen');
 const timeList = document.querySelector('#time-list');
 const timeEl = document.querySelector('#time');
 const board = document.querySelector('#board');
+const colors = ['#ffa1b8', '#f048a9', '#9000aa', '#c5ee7a', '#1bfea9'];
 let time = 0;
 let score = 0;
+let a;
 
 startBtn.addEventListener('click', (event) => {
     event.preventDefault();
@@ -28,7 +30,7 @@ board.addEventListener('click', (event) => {
 });
 
 function startGame() {
-    setInterval(decriseTime, 1000);
+    a = setInterval(decriseTime, 1000);
     createRandomCircle();
     setTime(time);
 }
@@ -53,6 +55,7 @@ function setTime(value) {
 function finishGame() {
     timeEl.parentNode.remove();
     board.innerHTML = `<h1>Cчет <span class="primary">${score}</span></h1>`
+    clearInterval(a);
 };
 
 function createRandomCircle() {
@@ -68,10 +71,22 @@ function createRandomCircle() {
     circle.style.top = `${y}px`;
     circle.style.left = `${x}px`;
 
+    setColor(circle);
+
     board.append(circle);
 }
+
 function getRandomNumber(min, max) {
     return Math.round(Math.random() * (max - min) + min);
 };
 
 
+function setColor(element) {
+    const color = getRandomColor();
+    element.style.background = color;
+}
+
+function getRandomColor() {
+    const index = Math.floor(Math.random() * colors.length);
+    return colors[index];
+}
